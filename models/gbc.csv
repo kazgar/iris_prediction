@@ -1,0 +1,2 @@
+learning_rate,loss,max_depth,n_estimators
+0.0001,log_loss,1,100

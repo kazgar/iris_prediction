@@ -1,0 +1,2 @@
+C,max_iter,penalty,solver,tol
+0.1,300,l2,sag,0.00001

@@ -1,0 +1,2 @@
+C,loss,max_iter,multi_class
+1,hinge,100,crammer_singer
