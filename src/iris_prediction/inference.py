@@ -4,7 +4,6 @@ import polars as pl
 from setup.constants import PROJECT_DATA
 from data_prep import expand_dataset, split_x_y, transform_y, split_data
 from load_model import load_model
-import random
 
 def main():
     if len(sys.argv) != 2:
