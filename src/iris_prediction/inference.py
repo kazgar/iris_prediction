@@ -1,4 +1,8 @@
-import polars as pl
-from metric_functions import calculate_basic_metrics
-from setup.constants import PROJECT_DATA
+import pygame
+from pygame.locals import *
 
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.quit()
