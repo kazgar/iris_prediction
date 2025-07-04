@@ -1,6 +1,7 @@
 import polars as pl
 from sklearn.model_selection import train_test_split
-
+from pathlib import Path
+import os
 
 def split_data(
     X: pl.DataFrame, y: pl.Series, train_size: pl.Float64, val_set: bool
@@ -43,3 +44,7 @@ def concat_results(data:dict) -> pl.DataFrame:
         [data[model] for model in data.keys()], how='vertical'
     )
     )
+
+def save_params(data:dict, filename:Path) -> None:
+    params = pl.from_dict(data)
+    params.write_csv(filename)

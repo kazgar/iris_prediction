@@ -1,11 +1,15 @@
 from models import Models, run_grid_search
-from data_prep import expand_dataset, split_data, split_x_y, transform_y, concat_results
+from data_prep import expand_dataset, split_data, split_x_y, transform_y, concat_results, save_params
 from param_grids import ParameterGrids
 from metric_functions import calculate_basic_metrics
-from setup.constants import PROJECT_DATA
+from setup.constants import PROJECT_DATA, PROJECT_ROOT
 import polars as pl
 from sklearn.exceptions import ConvergenceWarning
 from warnings import simplefilter
+import os
+
+if not os.path.isdir(PROJECT_ROOT / 'models'):
+    os.mkdir(PROJECT_ROOT / 'models')
 
 simplefilter("ignore", category=ConvergenceWarning)
 
@@ -25,6 +29,7 @@ lr_best_params = run_grid_search(
     X=X_train,
     y=y_train
 )
+save_params(lr_best_params, PROJECT_ROOT / 'models/lr.csv')
 lr = Models().logistic_regression(
     C=lr_best_params["C"],
     max_iter=lr_best_params["max_iter"],
@@ -36,13 +41,13 @@ results['Logistic Regression'] = pl.from_dict(
     calculate_basic_metrics(y_val, lr.predict(X_val), 'Logistic Regression')
 )
 
-
 svc_best_params = run_grid_search(
     estimator=Models().svc(),
     param_grid=ParameterGrids().svc,
     X=X_train,
     y=y_train
 )
+save_params(svc_best_params, PROJECT_ROOT / 'models/svc.csv')
 svc = Models().svc(
     C=svc_best_params["C"],
     degree=svc_best_params["degree"],
@@ -60,6 +65,7 @@ lsvc_best_params = run_grid_search(
     X=X_train,
     y=y_train
 )
+save_params(lsvc_best_params, PROJECT_ROOT / 'models/lsvc.csv')
 lsvc = Models().linear_svc(
     C=lsvc_best_params["C"],
     loss=lsvc_best_params["loss"],
@@ -76,6 +82,7 @@ gbc_best_params = run_grid_search(
     X=X_train,
     y=y_train
 )
+save_params(gbc_best_params, PROJECT_ROOT / 'models/gbc.csv')
 gbc = Models().gbc(
     learning_rate=gbc_best_params["learning_rate"],
     loss=gbc_best_params["loss"],
@@ -92,6 +99,7 @@ hgbc_best_params = run_grid_search(
     X=X_train,
     y=y_train
 )
+save_params(hgbc_best_params, PROJECT_ROOT / 'models/hgbc.csv')
 hgbc = Models().hgbc(
     learning_rate=hgbc_best_params["learning_rate"],
     max_iter=hgbc_best_params["max_iter"],
@@ -107,6 +115,7 @@ rf_best_params = run_grid_search(
     X=X_train,
     y=y_train
 )
+save_params(rf_best_params, PROJECT_ROOT / 'models/rf.csv')
 rf = Models().rf(
     criterion=rf_best_params["criterion"],
     max_depth=rf_best_params["max_depth"],
