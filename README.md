@@ -30,7 +30,7 @@ Despite iris species prediction done on this specific dataset (available here ht
 
 ## Project Structure
 
-- `src/iris_prediction` — Main scripts for data visualization, preparation, model training and inference.
+- `src/iris_prediction/` — Main scripts for data visualization, preparation, model training and inference.
 - `data/` — Dataset files
 - `models/` — Saved model parameters
 - `figures/` - Saved graphs
@@ -39,9 +39,9 @@ Despite iris species prediction done on this specific dataset (available here ht
 ## Usage
 
 In order to use the script, all you nede to is:
-    ```bash
-    python inference.py <model>
-    ```
+```bash
+python inference.py <model>
+```
 
 Where model is one of ['lr', 'svc', 'lsvc', 'gbc', 'hgbc', 'rf'], which stand for <b>Logistic Regression</b>, <b>Support Vector Classifier</b>, <b>Linear Support Vector Classifier</b>, <b>Gradient Boosting Classifier</b>, <b>Histogram-based Gradient Boosting Classifier</b>, and <b>Random Forest Classifier</b> respectively. Parameters for the models have been selected in advance, leveraging scikit-learns' GridSearchCV to find best parametrs (saved in `models/`). 
 
