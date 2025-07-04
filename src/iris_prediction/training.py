@@ -4,6 +4,7 @@ from param_grids import ParameterGrids
 from metric_functions import calculate_basic_metrics
 from setup.constants import PROJECT_DATA, PROJECT_ROOT
 import polars as pl
+from load_model import load_model
 from sklearn.exceptions import ConvergenceWarning
 from warnings import simplefilter
 import os
@@ -30,13 +31,7 @@ lr_best_params = run_grid_search(
     y=y_train
 )
 save_params(lr_best_params, PROJECT_ROOT / 'models/lr.csv')
-lr = Models().logistic_regression(
-    C=lr_best_params["C"],
-    max_iter=lr_best_params["max_iter"],
-    penalty=lr_best_params["penalty"],
-    solver=lr_best_params["solver"],
-    tol=lr_best_params["tol"],
-).fit(X_train, y_train)
+lr = load_model('lr').fit(X_train, y_train)
 results['Logistic Regression'] = pl.from_dict(
     calculate_basic_metrics(y_val, lr.predict(X_val), 'Logistic Regression')
 )
@@ -48,13 +43,7 @@ svc_best_params = run_grid_search(
     y=y_train
 )
 save_params(svc_best_params, PROJECT_ROOT / 'models/svc.csv')
-svc = Models().svc(
-    C=svc_best_params["C"],
-    degree=svc_best_params["degree"],
-    gamma=svc_best_params["gamma"],
-    kernel=svc_best_params["kernel"],
-    max_iter=svc_best_params["max_iter"],
-).fit(X_train, y_train)
+svc = load_model('svc').fit(X_train, y_train)
 results['SVC'] = pl.from_dict(
     calculate_basic_metrics(y_val, svc.predict(X_val), 'SVC')
 )
@@ -66,12 +55,7 @@ lsvc_best_params = run_grid_search(
     y=y_train
 )
 save_params(lsvc_best_params, PROJECT_ROOT / 'models/lsvc.csv')
-lsvc = Models().linear_svc(
-    C=lsvc_best_params["C"],
-    loss=lsvc_best_params["loss"],
-    max_iter=lsvc_best_params["max_iter"],
-    multi_class=lsvc_best_params["multi_class"],
-).fit(X_train, y_train)
+lsvc = load_model('lsvc').fit(X_train, y_train)
 results['Linear SVC'] = pl.from_dict(
     calculate_basic_metrics(y_val, lsvc.predict(X_val), 'Linear SVC')
 )
@@ -83,12 +67,7 @@ gbc_best_params = run_grid_search(
     y=y_train
 )
 save_params(gbc_best_params, PROJECT_ROOT / 'models/gbc.csv')
-gbc = Models().gbc(
-    learning_rate=gbc_best_params["learning_rate"],
-    loss=gbc_best_params["loss"],
-    max_depth=gbc_best_params["max_depth"],
-    n_estimators=gbc_best_params["n_estimators"],
-).fit(X_train, y_train)
+gbc = load_model('gbc').fit(X_train, y_train)
 results['Gradient Boosting Classifier'] = pl.from_dict(
     calculate_basic_metrics(y_val, gbc.predict(X_val), 'Gradient Boosting Classifier')
 )
@@ -100,11 +79,7 @@ hgbc_best_params = run_grid_search(
     y=y_train
 )
 save_params(hgbc_best_params, PROJECT_ROOT / 'models/hgbc.csv')
-hgbc = Models().hgbc(
-    learning_rate=hgbc_best_params["learning_rate"],
-    max_iter=hgbc_best_params["max_iter"],
-    max_depth=hgbc_best_params["max_depth"],
-).fit(X_train, y_train)
+hgbc = load_model('hgbc').fit(X_train, y_train)
 results['Hist Gradient Boosting Classifier'] = pl.from_dict(
     calculate_basic_metrics(y_val, hgbc.predict(X_val), 'Hist Gradient Boosting Classifier')
 )
@@ -116,12 +91,7 @@ rf_best_params = run_grid_search(
     y=y_train
 )
 save_params(rf_best_params, PROJECT_ROOT / 'models/rf.csv')
-rf = Models().rf(
-    criterion=rf_best_params["criterion"],
-    max_depth=rf_best_params["max_depth"],
-    max_features=rf_best_params["max_features"],
-    n_estimators=rf_best_params["n_estimators"],
-).fit(X_train, y_train)
+rf = load_model('rf').fit(X_train, y_train)
 results['Random Forest'] = pl.from_dict(
     calculate_basic_metrics(y_val, rf.predict(X_val), 'Random Forest')
 )
