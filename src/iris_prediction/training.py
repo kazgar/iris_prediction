@@ -117,6 +117,16 @@ results['Random Forest'] = pl.from_dict(
     calculate_basic_metrics(y_val, rf.predict(X_val), 'Random Forest')
 )
 
+trained_models = {
+    'lr': lr,
+    'svc': svc,
+    'lsvc': lsvc,
+    'gbc': gbc,
+    'hgbc': hgbc,
+    'rf': rf
+}
+test_data = [X_test, y_test]
+
 overall_results = concat_results(results)
 print('OVERALL RESULTS:')
 print('---------------------------------------')
